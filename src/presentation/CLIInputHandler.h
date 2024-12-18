@@ -3,18 +3,51 @@
 
 #include <string>
 #include <iostream>
+#include "BasicCLI.h"
 
 class CLIInputHandler {
-public:
-    std::string getUserInput() const {
-        std::string input;
-        std::cout << "Digite uma expressão matemática (ou 'sair' para encerrar): ";
-        std::getline(std::cin, input);
-        return input;
+private:
+    BasicCLI cli;
+
+    void displayMenu() const {
+        cli.setColor(BasicCLI::Color::CYAN);
+        std::cout << "=============================================\n";
+        cli.setColor(BasicCLI::Color::MAGENTA);
+        std::cout << "           Calculadora Matemática           \n";
+        cli.setColor(BasicCLI::Color::GREEN);
+        std::cout << "            (Versão 1.0 - CLI)              \n";
+        cli.setColor(BasicCLI::Color::CYAN);
+        std::cout << "=============================================\n";
+        cli.setColor(BasicCLI::Color::WHITE);
+
     }
 
-    void showOutput(const std::string& message) const {
-        std::cout << message << std::endl;
+public:
+    void showMenu() const {
+        displayMenu();
+    }
+
+    void clearScreen() {
+        #ifdef _WIN32
+            system("cls")
+        #else
+            system("clear");
+        #endif
+    }
+
+    std::string getUserInput() const {
+        std::string prompt = "Digite uma expressão matemática (ou 'sair' para encerrar): ";
+        return cli.get(prompt);
+    }
+
+    void showOutput(const std::string& message, BasicCLI::Color color = BasicCLI::Color::RESET) const {
+        cli.setColor(color);
+        cli.log(message);
+        cli.setColor(BasicCLI::Color::RESET);
+    }
+
+    bool checkExitCondition(const std::string& input) const {
+        return input == "sair";
     }
 };
 
