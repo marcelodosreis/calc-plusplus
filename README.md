@@ -15,7 +15,7 @@ The project follows a well-structured domain-driven design. Here is an overview 
 │   ├── infrastructure/ # Concrete Implementations
 │   └── presentation/   # User Input/Output (CLI, etc.)
 ├── tests/              # Unit and Integration Tests
-├── build/              # Compiled binaries
+├── docs/               # Documentations
 ├── scripts/            # Automation scripts (build, test, development)
 │   ├── config/         # Configuration files for colors and messages
 │   ├── build_and_test.sh  # Build and run unit tests script
