@@ -16,21 +16,31 @@ public:
         char operation;
         double rightOperand;
 
-        if (!(tokens >> leftOperand >> operation >> rightOperand)) {
-            throw std::invalid_argument("Formato inválido. Use: <número> <operador> <número>");
+        if (!(tokens >> leftOperand)) {
+            throw std::invalid_argument("Formato inválido. Esperando um número.");
         }
-
-        IExpression* left = new INumber(leftOperand);
-        IExpression* right = new INumber(rightOperand);
-
-        switch (operation) {
-            case '+':
-                return new IAddition(left, right);
-            case '-':
-                return new ISubtraction(left, right);
-            default:
+        
+        IExpression* result = new INumber(leftOperand);
+        
+        while (tokens >> operation) {
+            if (operation != '+' && operation != '-') {
                 throw std::invalid_argument("Operador inválido. Apenas + e - são suportados.");
+            }
+
+            if (!(tokens >> rightOperand)) {
+                throw std::invalid_argument("Formato inválido. Esperando um número após o operador.");
+            }
+
+            IExpression* right = new INumber(rightOperand);
+
+            if (operation == '+') {
+                result = new IAddition(result, right);
+            } else if (operation == '-') {
+                result = new ISubtraction(result, right);
+            }
         }
+
+        return result;
     }
 };
 
