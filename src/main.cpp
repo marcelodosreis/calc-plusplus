@@ -1,17 +1,33 @@
-#include <iostream>
-#include "domain/entities/Number.cpp"
-#include "domain/entities/Addition.cpp"
+#include <string>
+
+#include "presentation/CLIInputHandler.h"
+
+#include "application/ExpressionParser.h"
+
 
 int main() {
-    IExpression* num1 = new INumber(5.0);
-    IExpression* num2 = new INumber(3.0);
-    
-    IExpression* sum = new IAddition(num1, num2);
+    CLIInputHandler cliInputHandler;
+    ExpressionParser expressionParser;
 
-    std::cout << "Valor da soma: " << sum->evaluate() << std::endl;
+    while (true) {
+        std::string userInput = cliInputHandler.getUserInput();
 
-    delete sum;
+        if (userInput == "sair") {
+            cliInputHandler.showOutput("Encerrando o programa.");
+            break;
+        }
+
+        try {
+            IExpression* expression = expressionParser.parse(userInput);
+            double result = expression->evaluate();
+
+            cliInputHandler.showOutput("Resultado: " + std::to_string(result));
+            
+            delete expression;
+        } catch (const std::exception& e) {
+            cliInputHandler.showOutput(std::string("Erro: ") + e.what());
+        }
+    }
 
     return 0;
 }
-// main.cpp
