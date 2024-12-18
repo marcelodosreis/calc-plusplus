@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/domain/entities/Number.cpp"
+#include "../src/domain/entities/Number.h"
 
 TEST(NumberTest, EvaluateReturnsValue) {
     INumber num(5.0);
