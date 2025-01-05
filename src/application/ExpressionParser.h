@@ -51,7 +51,7 @@ public:
             "Formato inválido. Esperando um número após o operador.");
       }
 
-      IExpression *rightOperand = new Number(secondOperand);
+      Number *rightOperand = new Number(secondOperand);
 
       if (operatorSymbol == '+') {
         result = new Addition(result, rightOperand);
