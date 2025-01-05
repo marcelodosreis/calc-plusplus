@@ -1,10 +1,20 @@
-#include "../interfaces/IAddition.h"
+#ifndef ADDITION_H
+#define ADDITION_H
 
-inline IAddition::IAddition(IExpression* left, IExpression* right)
-    : left(left), right(right) {}
+#include "./IExpression.h"
 
-inline double IAddition::evaluate() const {
-    return left->evaluate() + right->evaluate();
-}
+class Addition : public IExpression {
+public:
+    Addition(IExpression* left, IExpression* right)
+        : leftOperand(left), rightOperand(right) {}
 
-// Domain - Entities::Addition
+    double evaluate() const override {
+        return leftOperand->evaluate() + rightOperand->evaluate();
+    }
+
+private:
+    IExpression* leftOperand;
+    IExpression* rightOperand;
+};
+
+#endif // ADDITION_H

@@ -21,6 +21,7 @@ int main() {
             IExpression* expression = expressionParser.parse(userInput);
             double result = expression->evaluate();
 
+
             cliInputHandler.showOutput("Resultado: " + std::to_string(result), BasicCLI::Color::GREEN);
             
             delete expression;

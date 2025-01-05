@@ -1,10 +1,20 @@
-#include "../interfaces/ISubtraction.h"
+#ifndef SUBTRACTION_H
+#define SUBTRACTION_H
 
-inline ISubtraction::ISubtraction(IExpression* left, IExpression* right)
-    : left(left), right(right) {}
+#include "./IExpression.h"
 
-inline double ISubtraction::evaluate() const {
-    return left->evaluate() - right->evaluate();
-}
+class Subtraction : public IExpression {
+public:
+    Subtraction(IExpression* left, IExpression* right)
+        : leftOperand(left), rightOperand(right) {}
 
-// Domain - Entities::Addition
+    double evaluate() const override {
+        return leftOperand->evaluate() - rightOperand->evaluate();
+    }
+
+private:
+    IExpression* leftOperand;
+    IExpression* rightOperand;
+};
+
+#endif // SUBTRACTION_H

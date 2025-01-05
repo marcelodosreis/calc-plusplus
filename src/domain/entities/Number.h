@@ -1,9 +1,19 @@
-#include "../interfaces/INumber.h"
+#ifndef NUMBER_H
+#define NUMBER_H
 
-inline INumber::INumber(double value) : value(value) {}
+#include "./IExpression.h"
 
-inline double INumber::evaluate() const {
-    return value;
-}
+class Number : public IExpression {
+public:
+    explicit Number(double value)
+        : value(value) {}
 
-// Domain - Entities::Number
+    double evaluate() const {
+        return value;
+    }
+
+private:
+    double value;
+};
+
+#endif // NUMBER_H

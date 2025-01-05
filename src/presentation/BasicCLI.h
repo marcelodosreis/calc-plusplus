@@ -36,16 +36,11 @@ public:
         std::string input;
         std::cout << prompt;
         std::getline(std::cin, input);
-        log("Entrada do usuário: " + input);
         return input;
     }
 
     void log(const std::string& message) const {
         std::cout << message << std::endl;
-    }
-
-    void devlog(const std::string& message) const {
-        std::cout << "[DEVLOG] " << message << std::endl;
     }
 };
 
