@@ -15,10 +15,10 @@
 class ExpressionParser {
 public:
   IExpression *parse(const std::string &input) const {
-
     std::unordered_set<char> validChars = {'(', ')', '+', '-', '*', '/'};
     std::vector<char> array;
     int parenthesisCount = 0;
+    bool isLastOperator = true;
 
     for (char c : input) {
       if (c == ')') {
@@ -34,7 +34,34 @@ public:
     }
 
     if (parenthesisCount != 0) {
-      std::cout << "Parenteses Estão faltando" << std::endl;
+      std::cout << "Erro: Parênteses desbalanceados." << std::endl;
+      return nullptr;
+    }
+
+    for (size_t i = 0; i < input.size(); ++i) {
+      char current = input[i];
+
+      if (isdigit(current) || current == '.') {
+        isLastOperator = false;
+      } else if (current == '+' || current == '-' || current == '*' || current == '/') {
+
+        if (isLastOperator && (current == '+' || current == '-')) {
+          std::cout << "Erro: Operadores unários consecutivos inválidos na posição " << i << "." << std::endl;
+          return nullptr;
+        }
+
+        if (current == '+' || current == '-') {
+          if (i == 0 || input[i - 1] == '(' || input[i - 1] == '*' || input[i - 1] == '/' || input[i - 1] == '+' || input[i - 1] == '-') {
+            isLastOperator = false;
+          } else {
+            isLastOperator = true;
+          }
+        } else {
+          isLastOperator = true;
+        }
+      } else if (current == ' ') {
+        continue;
+      }
     }
 
     std::string str(array.begin(), array.end());
@@ -43,5 +70,4 @@ public:
     return result;
   }
 };
-
 #endif // EXPRESSION_PARSER_H
