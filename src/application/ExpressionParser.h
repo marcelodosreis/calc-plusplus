@@ -18,9 +18,21 @@ public:
     std::unordered_set<char> validChars = {'(', ')', '+', '-', '*', '/'};
     std::vector<char> array;
     int parenthesisCount = 0;
-    bool isLastOperator = true;
+    bool isLastOperator = false;
 
     for (char c : input) {
+
+      if (c == '+' || c == '-' || c == '*' || c == '/') {
+        if (isLastOperator) {
+          std::cout << "Erro: Problema de Duplo Sinal: " << c << std::endl;
+          return nullptr;
+        }
+
+        isLastOperator = true;
+      } else {
+        isLastOperator = false;
+      }
+
       if (c == ')') {
         parenthesisCount--;
       }
@@ -37,34 +49,6 @@ public:
       std::cout << "Erro: Parênteses desbalanceados." << std::endl;
       return nullptr;
     }
-
-    for (size_t i = 0; i < input.size(); ++i) {
-      char current = input[i];
-
-      if (isdigit(current) || current == '.') {
-        isLastOperator = false;
-      } else if (current == '+' || current == '-' || current == '*' || current == '/') {
-
-        if (isLastOperator && (current == '+' || current == '-')) {
-          std::cout << "Erro: Operadores unários consecutivos inválidos na posição " << i << "." << std::endl;
-          return nullptr;
-        }
-
-        if (current == '+' || current == '-') {
-          if (i == 0 || input[i - 1] == '(' || input[i - 1] == '*' || input[i - 1] == '/' || input[i - 1] == '+' || input[i - 1] == '-') {
-            isLastOperator = false;
-          } else {
-            isLastOperator = true;
-          }
-        } else {
-          isLastOperator = true;
-        }
-      } else if (current == ' ') {
-        continue;
-      }
-    }
-
-    std::string str(array.begin(), array.end());
 
     IExpression *result = new Number(2);
     return result;
