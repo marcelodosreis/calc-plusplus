@@ -19,8 +19,10 @@ public:
     std::vector<char> array;
     int parenthesisCount = 0;
     bool isLastOperator = false;
+    std::vector<std::vector<int>> parenthesisBlocks;
 
-    for (char c : input) {
+    for (int i = 0; i < input.size(); i++) {
+      char c = input[i];
 
       if (c == '+' || c == '-' || c == '*' || c == '/') {
         if (isLastOperator) {
@@ -35,11 +37,18 @@ public:
 
       if (c == ')') {
         parenthesisCount--;
+        parenthesisBlocks.back().push_back(i);
+      }
+
+      if (parenthesisCount < 0) {
+        std::cout << "Erro: Iniciando com Parentese: " << c << std::endl;
+        return nullptr;
       }
 
       if (std::isdigit(c) || validChars.count(c)) {
         if (c == '(') {
           parenthesisCount++;
+          parenthesisBlocks.push_back({i});
         }
         array.push_back(c);
       }
@@ -49,7 +58,7 @@ public:
       std::cout << "Erro: Parênteses desbalanceados." << std::endl;
       return nullptr;
     }
-
+    
     IExpression *result = new Number(2);
     return result;
   }
