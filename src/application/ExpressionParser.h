@@ -35,31 +35,28 @@ public:
         isLastOperator = false;
       }
 
-      if (c == ')') {
-        parenthesisCount--;
-        parenthesisBlocks.back().push_back(i);
-      }
-
-      if (parenthesisCount < 0) {
-        std::cout << "Erro: Iniciando com Parentese: " << c << std::endl;
-        return nullptr;
-      }
-
       if (std::isdigit(c) || validChars.count(c)) {
+        if (c == ')') {
+          parenthesisCount--;
+          parenthesisBlocks.back().push_back(i);
+        }
+        
         if (c == '(') {
           parenthesisCount++;
           parenthesisBlocks.push_back({i});
         }
         array.push_back(c);
       }
-    }
+    };
 
     if (parenthesisCount != 0) {
       std::cout << "Erro: Parênteses desbalanceados." << std::endl;
       return nullptr;
     }
     
-    IExpression *result = new Number(2);
+    IExpression *result1 = new Number(+3);
+    IExpression *result2 = new Number(-2);
+    IExpression* result = new Addition(result1, result2);
     return result;
   }
 };
